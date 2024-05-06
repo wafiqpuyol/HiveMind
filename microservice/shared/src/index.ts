@@ -79,3 +79,4 @@ export {
   lowerCase,
   toUpperCase,
 } from './helper/helper';
+import { BadRequestException, ConflictException, FileTooLargeException, ForbiddenException, InternalServerErrorException, NotFoundException, UnauthorizedException } from "./helper/error-handler"
