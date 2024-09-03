@@ -1,0 +1,35 @@
+name: Publish
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+defaults:
+  run:
+    working-directory: ./microservice/shared
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repositroy
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Install Depedencies
+        run: npm install
+      - name: Build Project
+        run: npm run build
+      - name: Add .npmrc
+        run: |
+          echo @wafiqpuyol:https://npm.pkg.github.com/ > build/.npmrc
+          echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> build/.npmrc
+      - name: Publish package
+        run: npm publish
+        working-directory: ../microservice/shared/build
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

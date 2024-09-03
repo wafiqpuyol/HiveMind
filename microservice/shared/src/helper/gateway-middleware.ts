@@ -15,15 +15,12 @@ export const validateGatewayRequest = (
 ): void => {
   try {
     if (!req.headers?.gatewayToken) {
-      throw new UnauthorizedException("Invalid request", "validateGatewayRequest(): Request didn't come from api gateway");
+      throw new UnauthorizedException("Token not found", "validateGatewayRequest(): Request didn't come from api gateway");
     }
 
     const gatewayToken: string = req.headers?.gatewayToken as string;
     const decodedToken: Payload = jwt.verify(gatewayToken, "06a4217820be9650404f6c7765661002") as Payload;
 
-    if (Object.keys(decodedToken).length || !decodedToken) {
-      throw new BadRequestException('Invalid token', "validateGatewayRequest(): Couldn't verify token");
-    }
     if (!tokens.includes(decodedToken.id)) {
       throw new UnauthorizedException("Invalid request", "validateGatewayRequest(): Request didn't come from api gateway");
     }

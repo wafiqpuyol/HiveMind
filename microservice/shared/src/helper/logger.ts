@@ -1,4 +1,4 @@
-import { createLogger, exitOnError, level, Logger, transport } from 'winston';
+import winston, { createLogger, Logger } from 'winston';
 import {
   ElasticsearchTransformer,
   ElasticsearchTransport,
@@ -42,6 +42,6 @@ export const logger = (
   return createLogger({
     exitOnError: false,
     defaultMeta: { service: name },
-    transports: [new transport(transportOptions.console), esTransport],
+    transports: [new winston.transports.Console(transportOptions.console), esTransport],
   });
 };
