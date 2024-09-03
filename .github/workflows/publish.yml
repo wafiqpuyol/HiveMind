@@ -30,6 +30,6 @@ jobs:
           echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> build/.npmrc
       - name: Publish package
         run: npm publish
-        working-directory: ../microservice/shared/build
+        working-directory: ./microservice/shared/build
         env:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
